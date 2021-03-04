@@ -2,35 +2,7 @@ let dias = ["Monady", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
 "Sunday"];
 
 
-function Word(name, traduction, frequency) { 
-    this.name=name 
-    this.traduction=traduction
-    this.frequency=frequency
-};
 
-Word.prototype.setName = function(name){
-    this.name=name;
-}
-
-Word.prototype.getName = function(){
-    return this.name;
-}
-
-Word.prototype.setTraduction = function(traduction){
-    this.traduction=traduction;
-}
-
-Word.prototype.getTraduction = function(){
-    return this.traduction;
-}
-
-Word.prototype.setFrequency = function(fq){
-    this.frequency=fq;
-}
-
-Word.prototype.getFrequency = function(){
-    this.frequency;
-}
 
 console.log("Introduzca palabra:");
  let wrd //= process.openStdin();
