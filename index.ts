@@ -1,3 +1,4 @@
-let n:number=2;
-let x ="screen"
-x=0;
+import {Word} from "./Word";
+
+
+let word=new Word("s");
