@@ -1,4 +1,4 @@
-import { Word } from "./Word";
+import { Word } from "../model/Word";
 
 interface WordDaoInterface{
     getWords(): Array<Word>;

@@ -1,0 +1,32 @@
+{
+  "name": "english-app",
+  "version": "1.0.0",
+  "description": "My English app",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ./src/views/GUI.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juanpahgj/EnglishApp.git"
+  },
+  "keywords": [],
+  "author": "Juan Pablo Herrero Gómez-Jareño",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juanpahgj/EnglishApp/issues"
+  },
+  "homepage": "https://github.com/juanpahgj/EnglishApp#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "electron": "^12.0.0",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "electron-reload": "^1.5.0"
+  }
+}
