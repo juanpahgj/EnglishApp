@@ -1,4 +1,4 @@
-class Word{
+export class Word{
     
     word: string;
     hits: number;
@@ -8,21 +8,19 @@ class Word{
         this.hits= 0;
     }
 
-    getWord(){
+    public getWord(): string{
         return this.word;
     }
 
-    setWord(word: string){
+    public  setWord(word: string): void{
         this.word=word;
     }
 
-    getHits(){
+    public getHits(): number{
         return this.hits;
     }
 
-    setHits(hits:number){
+    public setHits(hits:number): void{
         this.hits=hits;
     }
 }
-
-export {Word}

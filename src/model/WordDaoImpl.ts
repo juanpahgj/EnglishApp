@@ -4,38 +4,37 @@
 
 import { Word } from "./Word";
 import { WordDaoInterface } from "../interfaces/WordDaoInterface";
-import { Wrapper } from "./Wrapper";
 import * as fs from 'fs';
 
 //const fs=require('fs');
-
-class WordDaoImpl implements WordDaoInterface{
+export class WordDaoImpl implements WordDaoInterface{
 
     private filename = './data.json';
-    private wrapper: Wrapper = new Wrapper();
+    private list: Word[]=[];
 
     constructor(){
         try{
             let data=fs.readFileSync(this.filename);
-            //console.log(data);
-            let js= JSON.parse(data.toString());
-            console.log(js);
-            this.wrapper.setArray(js.list);
-            //console.log("1"+this.wrapper);
+            let dataList= JSON.parse(data.toString());
+            dataList.forEach(element => {
+                let auxWord:Word=new Word("");
+                Object.assign(auxWord, element);
+                this.list.push(auxWord);
+            });        
         }catch{
             console.log("\nData file created void\n")
         }
     }
 
     public getWords(): Word[]{
-        return this.wrapper.getArray();
+        return this.list;
     }
     
     public updateWord(word: Word): boolean{
         let found=false;
-        for(let i=0;i<this.wrapper.getArray().length && !found;i++){
-            if(this.wrapper.getArray()[i] == word){
-                this.wrapper.getArray()[i]=word;
+        for(let i=0;i<this.list.length && !found;i++){
+            if(this.list[i] == word){
+                this.list[i]= word;
                 found=true;
             }
         }
@@ -47,9 +46,9 @@ class WordDaoImpl implements WordDaoInterface{
         let found=false;
         let wordObject=null;
 
-        for(let i=0;i<this.wrapper.getArray().length && !found;i++){
-            if((this.wrapper.getArray()[i].getWord()) == word){
-                wordObject=this.wrapper.getArray()[i];
+        for(let i=0;i<this.list.length && !found;i++){
+            if((this.list[i].getWord()) == word){
+                wordObject=this.list[i];
                 found=true;
             }
         }
@@ -57,29 +56,25 @@ class WordDaoImpl implements WordDaoInterface{
     }
     
     public insertWord(word: Word): void {
-        if(this.wrapper!=null && this.notDuplicated(word)){
-            //console.log("2"+this.wrapper);
-            let mylist:Word[]= this.wrapper.getArray();
-            mylist.push(word);
-            this.wrapper.setArray(mylist);
+        if(!this.duplicated(word)){
+            this.list.push(word); 
             this.store();
         }else{
-            console.log("Error!!!");
+            console.log("Insert error, word already exist");
         }
     }
 
-    private notDuplicated(toInsert:Word):boolean{
-        let result:boolean=false;
-        let array=this.wrapper.getArray()
-        for(let i=0; i<this.wrapper.getArray().length && !result; i++){
-            result=(array[i].getWord === toInsert.getWord);
+    private duplicated(toInsert:Word): boolean{
+    let result:boolean=false;
+        if(this.list.length>0){
+            for(let i=0; i<this.list.length && !result; i++){
+                result= (this.list[i].getWord() === toInsert.getWord());
+            }
         }
-        return result;
+    return result;
     }
 
-    private store():void{
-        fs.writeFileSync(this.filename, JSON.stringify(this.wrapper));
+    private store(): void{
+        fs.writeFileSync(this.filename, JSON.stringify(this.list, null,"\t"));
     }
 }
-
-export{WordDaoImpl}

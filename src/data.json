@@ -1,1 +1,26 @@
-{"list":[{"word":"k","hits":0}]}
+[
+	{
+		"word": "word",
+		"hits": 0
+	},
+	{
+		"word": "lamp",
+		"hits": 0
+	},
+	{
+		"word": "salt",
+		"hits": 0
+	},
+	{
+		"word": "sun",
+		"hits": 0
+	},
+	{
+		"word": "fun",
+		"hits": 0
+	},
+	{
+		"word": "table",
+		"hits": 0
+	}
+]

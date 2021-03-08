@@ -4,33 +4,35 @@
 */
 exports.__esModule = true;
 exports.WordDaoImpl = void 0;
-var Wrapper_1 = require("./Wrapper");
+var Word_1 = require("./Word");
 var fs = require("fs");
 //const fs=require('fs');
 var WordDaoImpl = /** @class */ (function () {
     function WordDaoImpl() {
+        var _this = this;
         this.filename = './data.json';
-        this.wrapper = new Wrapper_1.Wrapper();
+        this.list = [];
         try {
             var data = fs.readFileSync(this.filename);
-            //console.log(data);
-            var js = JSON.parse(data.toString());
-            console.log(js);
-            this.wrapper.setArray(js.list);
-            //console.log("1"+this.wrapper);
+            var dataList = JSON.parse(data.toString());
+            dataList.forEach(function (element) {
+                var auxWord = new Word_1.Word("");
+                Object.assign(auxWord, element);
+                _this.list.push(auxWord);
+            });
         }
         catch (_a) {
             console.log("\nData file created void\n");
         }
     }
     WordDaoImpl.prototype.getWords = function () {
-        return this.wrapper.getArray();
+        return this.list;
     };
     WordDaoImpl.prototype.updateWord = function (word) {
         var found = false;
-        for (var i = 0; i < this.wrapper.getArray().length && !found; i++) {
-            if (this.wrapper.getArray()[i] == word) {
-                this.wrapper.getArray()[i] = word;
+        for (var i = 0; i < this.list.length && !found; i++) {
+            if (this.list[i] == word) {
+                this.list[i] = word;
                 found = true;
             }
         }
@@ -40,36 +42,34 @@ var WordDaoImpl = /** @class */ (function () {
     WordDaoImpl.prototype.getWord = function (word) {
         var found = false;
         var wordObject = null;
-        for (var i = 0; i < this.wrapper.getArray().length && !found; i++) {
-            if ((this.wrapper.getArray()[i].getWord()) == word) {
-                wordObject = this.wrapper.getArray()[i];
+        for (var i = 0; i < this.list.length && !found; i++) {
+            if ((this.list[i].getWord()) == word) {
+                wordObject = this.list[i];
                 found = true;
             }
         }
         return wordObject;
     };
     WordDaoImpl.prototype.insertWord = function (word) {
-        if (this.wrapper != null && this.notDuplicated(word)) {
-            //console.log("2"+this.wrapper);
-            var mylist = this.wrapper.getArray();
-            mylist.push(word);
-            this.wrapper.setArray(mylist);
+        if (!this.duplicated(word)) {
+            this.list.push(word);
             this.store();
         }
         else {
-            console.log("Error!!!");
+            console.log("Insert error, word already exist");
         }
     };
-    WordDaoImpl.prototype.notDuplicated = function (toInsert) {
+    WordDaoImpl.prototype.duplicated = function (toInsert) {
         var result = false;
-        var array = this.wrapper.getArray();
-        for (var i = 0; i < this.wrapper.getArray().length && !result; i++) {
-            result = (array[i].getWord === toInsert.getWord);
+        if (this.list.length > 0) {
+            for (var i = 0; i < this.list.length && !result; i++) {
+                result = (this.list[i].getWord() === toInsert.getWord());
+            }
         }
         return result;
     };
     WordDaoImpl.prototype.store = function () {
-        fs.writeFileSync(this.filename, JSON.stringify(this.wrapper));
+        fs.writeFileSync(this.filename, JSON.stringify(this.list, null, "\t"));
     };
     return WordDaoImpl;
 }());
